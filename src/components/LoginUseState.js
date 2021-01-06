@@ -4,7 +4,7 @@ import { login } from '../utils';
 export default function LoginUseState() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoading, showLoader] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -12,14 +12,17 @@ export default function LoginUseState() {
     e.preventDefault();
 
     setError('');
-    showLoader(true);
+    setIsLoading(true);
 
     try {
       await login({ username, password });
       setIsLoggedIn(true);
+      setIsLoading(false);
+      setUsername('');
+      setPassword('');
     } catch (error) {
       setError('Incorrect username or password!');
-      showLoader(false);
+      setIsLoading(false);
       setUsername('');
       setPassword('');
     }
